@@ -1,0 +1,52 @@
+# PlanetX Lite - глобус PlanetX без QGIS.
+# Copyright (C) 2026 ООО «Информ++». Лицензия Apache 2.0.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Копии данных для страницы раз в 3 часа (scripts/copy.sh). Ветка data
+# каждый раз - один коммит без прежней истории: старые сутки течений
+# и прежние сводки пожаров не копятся в хранилище.
+
+name: Копии данных
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: copy
+  cancel-in-progress: false
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Прежние копии
+        run: |
+          mkdir data
+          cd data
+          git init -q
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          if git fetch -q --depth 1 origin data; then
+            git checkout -q FETCH_HEAD -- .
+          fi
+          rm -rf .git
+
+      - name: Скачать
+        run: bash scripts/copy.sh data
+
+      - name: Отправить
+        run: |
+          cd data
+          git init -q -b data
+          git config user.name "planetx-live"
+          git config user.email "planetx-live@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Копии данных $(date -u +%FT%TZ)"
+          git push -q --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" data
