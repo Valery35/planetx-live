@@ -10,8 +10,9 @@
 #     последние 7 суток, сетка 0.5°, как CURRENTS_URL в data::flow;
 #   fires/J1_VIIRS_C2_Global_24h.csv - пожары NASA FIRMS за сутки;
 #   volcanoes/holocene.csv - вулканы GVP;
-#   static/ - постоянные файлы: контуры горных разработок, CRUST1.0,
-#     томография SEISGLOB2, модель поля gufm1. Скачиваются один раз.
+#   static/ - постоянные файлы: контуры горных разработок (CC BY-SA 4.0).
+#     Скачиваются один раз. CRUST1.0, томография SEISGLOB2 и модель поля
+#     gufm1 лицензии на распространение не несут, их копий здесь нет.
 # Неудачная загрузка не портит прежнюю копию: файл пишется рядом
 # и подменяет прежний, только если пришёл целиком.
 set -u
@@ -66,7 +67,6 @@ get "https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/
 get "https://webservices.volcano.si.edu/geoserver/GVP-VOTW/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=GVP-VOTW:Smithsonian_VOTW_Holocene_Volcanoes&outputFormat=csv" "$out/volcanoes/holocene.csv" 100000 || true
 
 [ -s "$out/static/global_mining_polygons_v2.gpkg" ] || get "https://download.pangaea.de/dataset/942325/files/global_mining_polygons_v2.gpkg" "$out/static/global_mining_polygons_v2.gpkg" 20000000 || true
-[ -s "$out/static/crust1.0.tar.gz" ] || get "https://igppweb.ucsd.edu/~gabi/crust1/crust1.0.tar.gz" "$out/static/crust1.0.tar.gz" 1000000 || true
-[ -s "$out/static/SEISGLOB2_percent.r0.0-n4c.nc" ] || get "https://data.earthscope.org/archive/seismology/products/emc/netcdf/SEISGLOB2_percent.r0.0-n4c.nc" "$out/static/SEISGLOB2_percent.r0.0-n4c.nc" 20000000 || true
-[ -s "$out/static/gufm1.txt" ] || get "https://geomag.colorado.edu/images/GUFM/gufm1.txt" "$out/static/gufm1.txt" 500000 || true
+# Без права распространения - копий нет.
+rm -f "$out/static/crust1.0.tar.gz" "$out/static/SEISGLOB2_percent.r0.0-n4c.nc" "$out/static/gufm1.txt"
 exit 0

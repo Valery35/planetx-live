@@ -17,9 +17,8 @@ the old copies do not pile up in history.
 | `fires/J1_VIIRS_C2_Global_24h.csv` | NASA FIRMS, VIIRS NOAA-20, last 24 hours | NASA FIRMS |
 | `volcanoes/holocene.csv` | Smithsonian Global Volcanism Program | GVP, cite the source |
 | `static/global_mining_polygons_v2.gpkg` | Maus et al. 2022, PANGAEA 942325 | CC BY-SA 4.0 |
-| `static/crust1.0.tar.gz` | CRUST1.0, Laske et al. | free for research |
-| `static/SEISGLOB2_percent.r0.0-n4c.nc` | SEISGLOB2, EarthScope EMC | see EMC |
-| `static/gufm1.txt` | gufm1, Jackson et al. 2000 | free for research |
 
 The rights to the data stay with their sources. Each copy keeps the
 source's credit in PlanetX Lite.
+
+CRUST1.0, SEISGLOB2 and gufm1 carry no licence for redistribution, so no copies of them are kept here.
